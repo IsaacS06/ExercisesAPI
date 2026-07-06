@@ -12,5 +12,6 @@ namespace ExercisesAPI.DAL.DomainClasses
         [StringLength(200)]
         public string? Name { get; set; }
 
+        public ICollection<MenuItem>? MenuItems { get; set; }
     }
 }

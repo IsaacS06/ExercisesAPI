@@ -20,4 +20,6 @@ public class MenuItem
     public string? Description { get; set; }
     public int Protein { get; set; }
     public int Salt { get; set; }
+
+    public ICollection<TrayItem>? TrayItems { get; set; }
 }

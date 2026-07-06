@@ -19,5 +19,7 @@ namespace ExercisesAPI.DAL.DomainClasses
         public string? Hash { get; set; }
         [Required]
         public string? Salt { get; set; }
+
+        public ICollection<Tray>? Trays { get; set; }
     }
 }
