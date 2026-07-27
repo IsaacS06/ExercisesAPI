@@ -1,4 +1,5 @@
 ﻿using ExercisesAPI.DAL.DomainClasses;
+using ExercisesAPI.DAL.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExercisesAPI.DAL.DAO
@@ -6,10 +7,17 @@ namespace ExercisesAPI.DAL.DAO
     public class TrayDAO
     {
         readonly AppDbContext? _db;
+        readonly UserDAO? _userDAO;
 
         public TrayDAO(AppDbContext context)
         {
             _db = context;
+        }
+
+        public TrayDAO(AppDbContext context, UserDAO userDAO)
+        {
+            _db = context;
+            _userDAO = userDAO;
         }
 
         public async Task<int> CreateTray(TrayItem[] trayItems, string? email)
@@ -135,6 +143,66 @@ namespace ExercisesAPI.DAL.DAO
                 .Where(t => t.UserID == user.Id)
                 .OrderByDescending(t => t.DateCreated)
                 .ToListAsync();
+        }
+
+        // Get user tray history with DTO
+        public async Task<List<TrayHistoryDTO>> GetUserTrayHistory(string email)
+        {
+            UserDAO userDAO = new(_db!);
+            User? user = await userDAO.GetByEmail(email);
+            if (user == null)
+                return null;
+
+            // Query the database for trays belonging to this user
+            // Include TrayItems so we can count them
+            var trays = await _db!.Trays!
+                .Where(t => t.UserID == user.Id)
+                .Include(t => t.TrayItems)
+                .OrderByDescending(t => t.DateCreated)
+                .Select(t => new TrayHistoryDTO
+                {
+                    Id = t.Id,
+                    DateCreated = t.DateCreated,
+                    TotalCalories = t.TotalCalories,
+                    ItemCount = t.TrayItems.Count()
+                })
+                .ToListAsync();
+
+            return trays;
+        }
+
+        // Get detailed tray information with DTO
+        public async Task<TrayDetailsDTO> GetTrayDetails(int trayId)
+        {
+            var tray = await _db!.Trays!
+                .Where(t => t.Id == trayId)
+                .Include(t => t.TrayItems)
+                    .ThenInclude(ti => ti.MenuItem)
+                .FirstOrDefaultAsync();
+
+            if (tray == null)
+                return null;
+
+            var trayDetails = new TrayDetailsDTO
+            {
+                Id = tray.Id,
+                DateCreated = tray.DateCreated,
+                TotalCalories = tray.TotalCalories,
+                TotalProtein = tray.TotalProtein,
+                TotalCarbs = tray.TotalCarbs,
+                TotalFat = tray.TotalFat,
+                Items = tray.TrayItems.Select(ti => new TrayItemDetailDTO
+                {
+                    MenuItemName = ti.MenuItem.Description,
+                    Quantity = ti.Quantity,
+                    Calories = ti.MenuItem.Calories * ti.Quantity,
+                    Protein = ti.MenuItem.Protein * ti.Quantity,
+                    Carbs = ti.MenuItem.Carbs * ti.Quantity,
+                    Fat = ti.MenuItem.Fat * ti.Quantity
+                }).ToList()
+            };
+
+            return trayDetails;
         }
     }
 }
