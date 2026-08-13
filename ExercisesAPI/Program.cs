@@ -1,4 +1,5 @@
 using ExercisesAPI.DAL;
+using ExercisesAPI.DAL.DAO;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 // add SQL Server Localdb connectivity
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(c => c.UseSqlServer(connectionString));
+
+// Register DAOs
+builder.Services.AddScoped<IBranchDAO, BranchDAO>();
 
 // Add services to the container.
 

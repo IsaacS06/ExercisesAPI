@@ -40,6 +40,125 @@ namespace ExercisesAPI.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("ExercisesAPI.DAL.DomainClasses.RestaurantBranch", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("Latitude")
+                        .HasPrecision(10, 8)
+                        .HasColumnType("decimal(10,8)");
+
+                    b.Property<decimal>("Longitude")
+                        .HasPrecision(11, 8)
+                        .HasColumnType("decimal(11,8)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("OpeningHours")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RestaurantBranches", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "201 King Street, London, ON",
+                            CreatedAt = new DateTime(2026, 8, 4, 19, 7, 46, 1, DateTimeKind.Utc).AddTicks(5730),
+                            IsActive = true,
+                            Latitude = 42.9832m,
+                            Longitude = -81.2492m,
+                            Name = "Downtown Branch",
+                            OpeningHours = "Mon-Sun 10:00 AM - 10:00 PM",
+                            PhoneNumber = "+1-519-555-0101"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "1680 Richmond St N, London, ON",
+                            CreatedAt = new DateTime(2026, 8, 4, 19, 7, 46, 1, DateTimeKind.Utc).AddTicks(5735),
+                            IsActive = true,
+                            Latitude = 43.0200m,
+                            Longitude = -81.2770m,
+                            Name = "Masonville Branch",
+                            OpeningHours = "Mon-Sun 10:00 AM - 10:00 PM",
+                            PhoneNumber = "+1-519-555-0102"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Address = "1105 Wellington Rd, London, ON",
+                            CreatedAt = new DateTime(2026, 8, 4, 19, 7, 46, 1, DateTimeKind.Utc).AddTicks(5736),
+                            IsActive = true,
+                            Latitude = 42.9440m,
+                            Longitude = -81.2300m,
+                            Name = "White Oaks Branch",
+                            OpeningHours = "Mon-Sun 10:00 AM - 10:00 PM",
+                            PhoneNumber = "+1-519-555-0103"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Address = "1265 Hyde Park Rd, London, ON",
+                            CreatedAt = new DateTime(2026, 8, 4, 19, 7, 46, 1, DateTimeKind.Utc).AddTicks(5738),
+                            IsActive = true,
+                            Latitude = 43.0080m,
+                            Longitude = -81.3320m,
+                            Name = "Hyde Park Branch",
+                            OpeningHours = "Mon-Sun 10:00 AM - 10:00 PM",
+                            PhoneNumber = "+1-519-555-0104"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Address = "1249 Oxford St E, London, ON",
+                            CreatedAt = new DateTime(2026, 8, 4, 19, 7, 46, 1, DateTimeKind.Utc).AddTicks(5740),
+                            IsActive = true,
+                            Latitude = 42.9910m,
+                            Longitude = -81.1890m,
+                            Name = "Argyle Branch",
+                            OpeningHours = "Mon-Sun 10:00 AM - 10:00 PM",
+                            PhoneNumber = "+1-519-555-0105"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Address = "785 Wonderland Rd S, London, ON",
+                            CreatedAt = new DateTime(2026, 8, 4, 19, 7, 46, 1, DateTimeKind.Utc).AddTicks(5741),
+                            IsActive = true,
+                            Latitude = 42.9560m,
+                            Longitude = -81.2870m,
+                            Name = "Westmount Branch",
+                            OpeningHours = "Mon-Sun 10:00 AM - 10:00 PM",
+                            PhoneNumber = "+1-519-555-0106"
+                        });
+                });
+
             modelBuilder.Entity("ExercisesAPI.DAL.DomainClasses.Tray", b =>
                 {
                     b.Property<int>("Id")
