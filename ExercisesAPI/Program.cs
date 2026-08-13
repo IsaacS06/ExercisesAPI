@@ -57,7 +57,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(MyAllowSpecificOrigins,
     builder =>
     {
-        builder.WithOrigins("http://localhost:9000", "http://isaacwebapp-cea0d0a0d7g2dkcy.canadaeast-01.azurewebsites.net/").AllowAnyHeader().AllowAnyMethod();
+        builder.WithOrigins("http://localhost:9000", "http://isaacwebapp-cea0d0a0d7g2dkcy.canadaeast-01.azurewebsites.net").AllowAnyHeader().AllowAnyMethod();
 
     });
 });
